@@ -139,7 +139,7 @@ section{position:relative}
 .no-gl.journey{height:auto}.no-gl .journey-sticky{position:relative;height:auto;min-height:100vh}
 .no-gl .scene{position:relative;inset:auto;opacity:1!important;visibility:visible!important;transform:none!important;padding:120px 0 60px}
 .no-gl .s1,.no-gl .s2,.no-gl .stops,.no-gl .scroll-cue{display:none}
-.scene{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:96px 24px 70px;pointer-events:none;will-change:opacity,transform}
+.scene{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:96px 24px 70px;pointer-events:none;will-change:transform}
 .scene.live{pointer-events:auto}
 .scene-in{max-width:880px;display:grid;justify-items:center}
 .scene .eyebrow{justify-content:center;margin-bottom:1.3rem;flex-wrap:wrap;row-gap:.3rem}
@@ -163,7 +163,9 @@ section{position:relative}
 .word-row span{font-family:var(--font);font-weight:700;font-size:clamp(.95rem,1.4vw,1.15rem);padding:.5rem 1.1rem;border-radius:999px;border:1px solid rgba(244,246,255,.18);color:rgba(244,246,255,.35);background:rgba(3,9,50,.35);transition:color .5s,background .5s,border-color .5s,transform .6s var(--ease),box-shadow .6s}
 .word-row span.on{color:var(--ink);background:var(--gold);border-color:var(--gold);transform:translateY(-3px);box-shadow:0 10px 30px -10px rgba(227,184,32,.9)}
 .s3{align-items:end;padding-bottom:7vh}
-.s3 .scene-in{background:radial-gradient(closest-side,rgba(1,4,26,.75),rgba(1,4,26,0));padding:2rem 3rem}
+.s3 .scene-in{position:relative;isolation:isolate;padding:2rem 3rem}
+/* soft frosted pool behind "Save the date": the map blurs, the edges fade out */
+.s3 .scene-in::before{content:"";position:absolute;inset:-14% -22%;z-index:-1;background:radial-gradient(closest-side,rgba(1,4,26,.62),rgba(1,4,26,.28) 60%,rgba(1,4,26,0));backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);-webkit-mask-image:radial-gradient(closest-side,#000 55%,transparent);mask-image:radial-gradient(closest-side,#000 55%,transparent)}
 .std-logo{width:min(240px,56vw);height:auto;margin-bottom:1rem;filter:drop-shadow(0 6px 30px rgba(1,4,26,.8))}
 .std{font-family:var(--font);font-weight:800;font-size:clamp(1.5rem,3.2vw,2.4rem);color:var(--gold);text-transform:uppercase;letter-spacing:.02em;border:3px solid var(--gold);padding:.35em .9em;line-height:1;background:rgba(1,4,26,.45);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 .std-date,.std-venue{display:flex;align-items:center;gap:.6rem;font-family:var(--font);font-weight:700;color:var(--gold-2);text-shadow:0 2px 16px rgba(1,4,26,.95)}
