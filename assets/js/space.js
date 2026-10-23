@@ -93,7 +93,7 @@
           uniforms: { uSize: { value: size }, uScale: { value: 1 }, uColor: { value: new T.Color(col) }, uOpacity: { value: op } } });
         const pts = new T.Points(g, m); this.sky.add(pts); return m;
       };
-      this.starMats = [star(2200, 60, 140, .45, 0xffffff, .9), star(500, 40, 90, .55, 0xffe7a3, .8), star(260, 30, 70, .7, 0x9fb4ff, .9)];
+      this.starMats = []; // no stars: a clean, deep-blue sky
       const neb = (col, x, y, z, sc, op) => {
         const c = document.createElement('canvas'); c.width = c.height = 256; const x2 = c.getContext('2d');
         const g = x2.createRadialGradient(128, 128, 0, 128, 128, 128); g.addColorStop(0, col); g.addColorStop(1, 'rgba(0,0,0,0)');
@@ -112,7 +112,7 @@
         vertexShader: 'varying vec3 vN; void main(){ vN = normalize(normalMatrix*normal); gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.0); }',
         fragmentShader: 'uniform float uGold; varying vec3 vN; void main(){ float i = pow(clamp(.72 - dot(vN, vec3(0.,0.,1.)), 0., 1.), 2.6); vec3 c = mix(vec3(.24,.42,1.), vec3(1.,.82,.25), uGold); gl_FragColor = vec4(c, 1.)*i*1.6; }'
       });
-      this.atmo = atmo; this.atmoMesh = new T.Mesh(new T.SphereGeometry(1.16, 64, 64), atmo); s.add(this.atmoMesh);
+      this.atmo = atmo; // glow around the Earth removed
 
       const layer = (b64, r, size, col, op) => {
         const a = decode(b64), n = a.length / 2, pos = new Float32Array(n * 3), al = new Float32Array(n);
@@ -253,7 +253,6 @@
       const c = camAt(p, this.t);
       const E = this.earth;
       E.rotation.set((c.lat + this.my * 4) * D2R, (-c.lon + this.mx * 6) * D2R, 0, 'XYZ');
-      this.atmoMesh.rotation.copy(E.rotation);
       const dist = c.dist * this.fit;
       this.cam.position.set(0, 0, dist); this.cam.lookAt(0, 0, 0);
       this.cam.setViewOffset(this.w, this.h, 0, c.shift * this.h, this.w, this.h);
@@ -265,7 +264,6 @@
       this.mCoast.opacity = ss(.2, .4, p) * .55;
       this.mBorders.opacity = ss(.36, .56, p) * .32;
       this.mBwLine.opacity = ss(.7, .84, p);
-      this.atmo.uniforms.uGold.value = ss(.3, .8, p);
       this.starMats.forEach((m, i) => m.uniforms.uOpacity.value = (i === 0 ? .9 : .8) * (1 - .5 * ss(.6, .9, p)) * (.85 + .15 * Math.sin(this.t * (1.3 + i) + i)));
 
       // as we drop into Botswana the continental web steps back so the local lines read
